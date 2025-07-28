@@ -6,6 +6,7 @@ import {
   HiBars3BottomRight,
 } from "react-icons/hi2";
 import SearchBar from "./Searchbar";
+import CardDrawer from "../Layout/CardDrawer";
 
 const Navbar = () => {
   return (
@@ -63,6 +64,7 @@ const Navbar = () => {
           </button>
         </div>
       </nav>
+      <CardDrawer />
     </>
   );
 };

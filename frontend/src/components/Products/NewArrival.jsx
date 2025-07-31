@@ -131,12 +131,12 @@ const NewArrival = () => {
       setCanScrollLeft(leftScroll > 0);
       setCanScrollRight(rightScroll);
     }
-    console.log({
-      scrollLeft: container.scrollLeft,
-      clientWidth: container.clientWidth,
-      scrollWidth: container.scrollWidth,
-      Offset:scrollRef.current.offsetLeft,
-    });
+    // console.log({
+    //   scrollLeft: container.scrollLeft,
+    //   clientWidth: container.clientWidth,
+    //   scrollWidth: container.scrollWidth,
+    //   Offset:scrollRef.current.offsetLeft,
+    // });
   };
   useEffect(() => {
     const container = scrollRef.current;

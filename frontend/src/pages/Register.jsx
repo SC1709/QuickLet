@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import register from "../assets/register.webp";
+import register from "../assets/register.jpg";
 
 const Register = () => {
   const [email, setEmail] = useState("");

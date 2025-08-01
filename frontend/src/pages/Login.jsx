@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import login from "../assets/login.webp"
+import login from "../assets/login.webp";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -40,19 +40,19 @@ const Login = () => {
               className="w-full p-2 border border-gray-300 rounded-lg"
             />
           </div>
-            <button
-              type="submit"
-              className="w-full bg-black text-white p-2 rounded-lg font-semibold
+          <button
+            type="submit"
+            className="w-full bg-black text-white p-2 rounded-lg font-semibold
                hover:bg-gray-800 transition cursor-pointer"
-            >
-              Sign In
-            </button>
-            <p className="text-center mt-6 text-sm">
-              Don't have an account?{" "}
-              <Link to="/register" className="text-blue-500 hover:underline">
-                Register
-              </Link>
-            </p>
+          >
+            Sign In
+          </button>
+          <p className="text-center mt-6 text-sm">
+            Don't have an account?{" "}
+            <Link to="/register" className="text-blue-500 hover:underline">
+              Register
+            </Link>
+          </p>
         </form>
       </div>
       <div className="hidden md:block w-1/2 bg-gray-800">

@@ -15,7 +15,9 @@ const ProductGrid = ({ products }) => {
               />
             </div>
             <h3 className="text-sm font-semibold mb-2">{product.name}</h3>
-            <p className="text-gray-500 font-medium text-sm tracking-tighter">₹ {product.price}</p>
+            <p className="text-gray-500 font-medium text-sm tracking-tighter">
+              ₹ {product.price}
+            </p>
           </div>
         </Link>
       ))}

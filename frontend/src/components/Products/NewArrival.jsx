@@ -103,18 +103,17 @@ const NewArrival = () => {
     setIsDragging(true);
     setStartX(e.pageX - scrollRef.current.offsetLeft);
     setScrollLeft(scrollRef.current.scrollLeft);
-  }
+  };
   const handleMouseMove = (e) => {
-    if(!isDragging) return;
+    if (!isDragging) return;
     const x = e.pageX - scrollRef.current.offsetLeft;
-    const walk = (x - startX) ;
+    const walk = x - startX;
     scrollRef.current.scrollLeft = scrollLeft - walk;
-  }
+  };
 
   const handleMouseUpOrLeave = () => {
     setIsDragging(false);
-
-  }
+  };
   const scroll = (direction) => {
     const scrollAmount = direction === "left" ? -300 : 300;
     scrollRef.current.scrollBy({
@@ -185,7 +184,9 @@ const NewArrival = () => {
       {/* scrollable content */}
       <div
         ref={scrollRef}
-        className={`container mx-auto overflow-x-scroll flex space-x-6 relative ${isDragging ? "cursor-grabbing" : "cursor-grab"}`}
+        className={`container mx-auto overflow-x-scroll flex space-x-6 relative ${
+          isDragging ? "cursor-grabbing" : "cursor-grab"
+        }`}
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUpOrLeave}

@@ -22,7 +22,9 @@ const Hero = () => {
           <Link
             to="#"
             className="bg-white text-gray-950 px-6 py-2 text-lg rounded-lg hover:bg-gray-400 transition cursor-pointer"
-          >Shop Now</Link>
+          >
+            Shop Now
+          </Link>
         </div>
       </div>
     </section>

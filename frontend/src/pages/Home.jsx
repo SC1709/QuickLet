@@ -5,6 +5,7 @@ import NewArrival from '../components/Products/NewArrival';
 import BestSeller from '../components/Categories/BestSeller';
 import WomenWear from '../components/Categories/WomenWear';
 import FeaturedCollection from '../components/Products/FeaturedCollection';
+import FeaturesSection from '../components/Products/FeaturesSection';
 
 const Home = () => {
   return (
@@ -15,6 +16,7 @@ const Home = () => {
         <BestSeller />
         <WomenWear />
         <FeaturedCollection />
+        <FeaturesSection />
     </div>
   )
 }

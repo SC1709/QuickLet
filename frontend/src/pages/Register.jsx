@@ -6,6 +6,16 @@ const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(email, password, name);
+    setEmail("");
+    setPassword("");
+    setName("");
+    alert("Registration successful!");
+    window.location.href = "/"; 
+  }
   return (
     <div className="flex">
       <div className="w-full md:w-1/2 flex flex-col justify-center items-center p-8 md:p-12">
@@ -57,6 +67,7 @@ const Register = () => {
             type="submit"
             className="w-full bg-black text-white p-2 rounded-lg font-semibold
                hover:bg-gray-800 transition cursor-pointer"
+               onClick={handleSubmit}
           >
             Sign Up
           </button>

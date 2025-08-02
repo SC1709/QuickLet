@@ -10,16 +10,14 @@ const Register = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(email, password, name);
-    setEmail("");
-    setPassword("");
-    setName("");
-    alert("Registration successful!");
-    window.location.href = "/"; 
-  }
+  };
   return (
     <div className="flex">
       <div className="w-full md:w-1/2 flex flex-col justify-center items-center p-8 md:p-12">
-        <form className="w-full max-w-md bg-white p-8 rounded-lg border shadow-sm">
+        <form
+          onSubmit={handleSubmit}
+          className="w-full max-w-md bg-white p-8 rounded-lg border shadow-sm"
+        >
           <div className="flex justify-center mb-6">
             <h2 className="text-xl font-medium">Quicklet</h2>
           </div>
@@ -32,7 +30,7 @@ const Register = () => {
               Name
             </label>
             <input
-              type="email"
+              type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="Enter your Name"
@@ -66,8 +64,7 @@ const Register = () => {
           <button
             type="submit"
             className="w-full bg-black text-white p-2 rounded-lg font-semibold
-               hover:bg-gray-800 transition cursor-pointer"
-               onClick={handleSubmit}
+               hover:bg-gray-700 transition cursor-pointer"
           >
             Sign Up
           </button>

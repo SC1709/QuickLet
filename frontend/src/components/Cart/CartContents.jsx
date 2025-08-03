@@ -41,11 +41,11 @@ const CartContents = () => {
                 size: {product.size} | color: {product.color}
               </p>
               <div className="flex items-center mt-2">
-                <button className="border rounded px-2 py-1 text-xl font-medium">
+                <button className="border rounded px-2 py-1 text-xl font-medium cursor-pointer">
                   -
                 </button>
                 <span className="mx-4">{product.quantity}</span>
-                <button className="border rounded px-2 py-1 text-xl font-medium">
+                <button className="border rounded px-2 py-1 text-xl font-medium cursor-pointer">
                   +
                 </button>
               </div>
@@ -54,7 +54,7 @@ const CartContents = () => {
           <div>
             <p>₹ {product.price.toLocaleString()}</p>
             <button>
-              <RiDeleteBin3Line className="h-6 w-6 mt-2 text-red-600" />
+              <RiDeleteBin3Line className="h-6 w-6 mt-2 text-red-600 cursor-pointer" />
             </button>
           </div>
         </div>

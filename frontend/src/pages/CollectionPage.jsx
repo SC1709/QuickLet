@@ -22,8 +22,10 @@ const CollectionPage = () => {
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
     // clear event listener
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  });
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
   useEffect(() => {
     setTimeout(() => {
       const fetchedProducts = [

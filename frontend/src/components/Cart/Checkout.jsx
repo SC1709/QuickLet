@@ -194,31 +194,43 @@ const Checkout = () => {
       </div>
       
       {/* Right Section */}
-      <div>
-        <h2 className="text-3xl font-bold mb-4">Order Summary</h2>
-        <div className="space-y-4">
-          {cart.products.map((product) => (
+      <div className="bg-gray-50 p-6 rounded-lg">
+        <h3 className="text-lg font-semibold mb-4">Order Summary</h3>
+        <div className="border-t py-4 mb-4">
+          {cart.products.map((product,index) => (
             <div
-              key={product.name}
-              className="flex justify-between items-center border-b border-gray-300 pb-4"
+              key={index}
+              className="flex justify-between items-start border-b border-gray-300"
             >
-              <div className="flex items-center">
+              <div className="flex items-start">
                 <img
                   src={product.image}
                   alt={product.name}
-                  className="w-16 h-16 object-cover mr-4"
+                  className="w-20 h-24 object-cover mr-4"
                 />
                 <div>
-                  <p className="text-lg font-semibold">{product.name}</p>
+                  <h3 className="text-md font-semibold">{product.name}</h3>
                   <p className="text-sm text-gray-600">Size: {product.size}</p>
                   <p className="text-sm text-gray-600">
                     Color: {product.color}
                   </p>
                 </div>
               </div>
-              <p className="text-lg font-semibold">${product.price}</p>
+              <p className="text-xl font-semibold">₹ {product.price?.toLocaleString()}</p>
             </div>
           ))}
+        </div>
+        <div className="flex justify-between items-center text-lg mb-4">
+            <p className="font-semibold">Subtotal</p>
+            <p>₹ {cart.totalPrice?.toLocaleString()}</p>
+        </div>
+        <div className="flex justify-between items-center text-lg">
+            <p className="font-semibold">Shipping</p>
+            <p>Free</p>
+        </div>
+        <div className="flex justify-between items-center text-lg mt-4 border-t pt-4">
+            <p className="font-semibold text-lg">Total</p>
+            <p>₹ {cart.totalPrice?.toLocaleString()}</p>
         </div>
       </div>
     </div>

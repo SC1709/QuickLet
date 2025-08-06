@@ -1,13 +1,12 @@
 import React from "react";
-const payapId = import.meta.env.VITE_PAYPAL_ID;
+const payapId = import.meta.env.VITE_PAYPAL_CLIENT_ID;
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 
 const PayPalButton = ({ amount, onSuccess, onError }) => {
   return (
     <PayPalScriptProvider
       options={{
-        "client-id":
-          payapId,
+        "client-id": payapId,
       }}
     >
       <PayPalButtons

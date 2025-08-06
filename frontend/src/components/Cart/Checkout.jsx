@@ -23,7 +23,7 @@ const cart = {
 
 const Checkout = () => {
   const navigate = useNavigate();
-  const [checkoutId,setCheckoutId] = useState(null);
+  const [checkoutId, setCheckoutId] = useState(null);
   const [shippingAddress, setShippingAddress] = useState({
     firstName: "",
     lastName: "",
@@ -37,7 +37,7 @@ const Checkout = () => {
   const handleCreateCheckout = (e) => {
     e.preventDefault();
     setCheckoutId(123);
-  }
+  };
   const handlePaymentSuccess = (details) => {
     console.log("Payment successful:", details);
     navigate("/order-confirmation");
@@ -160,7 +160,7 @@ const Checkout = () => {
               className="w-full p-2 border border-gray-300 rounded-lg"
               required
             />
-            </div>
+          </div>
           <div className="mb-4">
             <label className="block text-gray-700">Phone</label>
             <input
@@ -176,28 +176,34 @@ const Checkout = () => {
               className="w-full p-2 border border-gray-300 rounded-lg"
               required
             />
-            </div>
-            <div className="mt-6">
-                {!checkoutId?(
-                    <button type="submit" className="w-full bg-black text-white py-3 rounded-lg cursor-pointer">
-                        Continue to Payment
-                    </button>
-                ):(
-                    <div>
-                        <h3 className="text-lg mb-4">Pay with Paypal</h3>
-                        <PayPalButton amount={100} onSuccess={handlePaymentSuccess} 
-                        onError={(err)=>alert("Payment Failed. Try again.")}/>
-                    </div>
-                )}
-            </div>
+          </div>
+          <div className="mt-6">
+            {!checkoutId ? (
+              <button
+                type="submit"
+                className="w-full bg-black text-white py-3 rounded-lg cursor-pointer"
+              >
+                Continue to Payment
+              </button>
+            ) : (
+              <div>
+                <h3 className="text-lg mb-4">Pay with Paypal</h3>
+                <PayPalButton
+                  amount={100}
+                  onSuccess={handlePaymentSuccess}
+                  onError={(err) => alert("Payment Failed. Try again.")}
+                />
+              </div>
+            )}
+          </div>
         </form>
       </div>
-      
+
       {/* Right Section */}
       <div className="bg-gray-50 p-6 rounded-lg">
         <h3 className="text-lg font-semibold mb-4">Order Summary</h3>
         <div className="border-t py-4 mb-4">
-          {cart.products.map((product,index) => (
+          {cart.products.map((product, index) => (
             <div
               key={index}
               className="flex justify-between items-start border-b border-gray-300"
@@ -216,21 +222,23 @@ const Checkout = () => {
                   </p>
                 </div>
               </div>
-              <p className="text-xl font-semibold">₹ {product.price?.toLocaleString()}</p>
+              <p className="text-xl font-semibold">
+                ₹ {product.price?.toLocaleString()}
+              </p>
             </div>
           ))}
         </div>
         <div className="flex justify-between items-center text-lg mb-4">
-            <p className="font-semibold">Subtotal</p>
-            <p>₹ {cart.totalPrice?.toLocaleString()}</p>
+          <p className="font-semibold">Subtotal</p>
+          <p>₹ {cart.totalPrice?.toLocaleString()}</p>
         </div>
         <div className="flex justify-between items-center text-lg">
-            <p className="font-semibold">Shipping</p>
-            <p>Free</p>
+          <p className="font-semibold">Shipping</p>
+          <p>Free</p>
         </div>
         <div className="flex justify-between items-center text-lg mt-4 border-t pt-4">
-            <p className="font-semibold text-lg">Total</p>
-            <p>₹ {cart.totalPrice?.toLocaleString()}</p>
+          <p className="font-semibold text-lg">Total</p>
+          <p>₹ {cart.totalPrice?.toLocaleString()}</p>
         </div>
       </div>
     </div>

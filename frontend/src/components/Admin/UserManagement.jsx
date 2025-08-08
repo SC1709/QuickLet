@@ -3,6 +3,7 @@ import React, { useState } from "react";
 const UserManagement = () => {
   const users = [
     {
+      _id: 123123,
       name: "John Doe",
       email: "john@example.com",
       role: "admin",
@@ -27,6 +28,14 @@ const UserManagement = () => {
       password: "",
       role: "customer",
     });
+  };
+  const handleRoleChange = (userId, newRole) => {
+    console.log(userId, newRole);
+  };
+  const handleDelete = (userId) => {
+    if (window.confirm("Are you sure you want to delete this user?")) {
+      console.log(userId);
+    }
   };
   return (
     <div className="max-w-7xl mx-auto p-6">
@@ -88,6 +97,48 @@ const UserManagement = () => {
             Add User
           </button>
         </form>
+      </div>
+      {/* User list management */}
+      <div className="overflow-x-auto shadow-md sm:rounded-lg">
+        <table className="min-w-full text-left text-gray-500">
+          <thead className="bg-gray-200 text-xs uppercase text-gray-700">
+            <tr>
+              <th className="px-4 py-3">Name</th>
+              <th className="px-4 py-3">Email</th>
+              <th className="px-4 py-3">Role</th>
+              <th className="px-4 py-3">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {users.map((user) => (
+              <tr key={user._id} className="border-b hover:bg-gray-50">
+                <td className="p-4 font-medium text-gray-800 whitespace-nowrap">
+                  {user.name}
+                </td>
+                <td className="p-4">{user.email}</td>
+                <td className="p-4">
+                  <select
+                    value={user.role}
+                    onChange={(e) => handleRoleChange(user._id, e.target.value)}
+                    className="p-2 border border-gray-300 rounded-lg focus:outline-none
+                     focus:border-blue-500 cursor-pointer"
+                  >
+                    <option value="customer">Customer</option>
+                    <option value="admin">Admin</option>
+                  </select>
+                </td>
+                <td className="p-4">
+                  <button
+                    onClick={() => handleDelete(user._id)}
+                    className="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 cursor-pointer"
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
   );

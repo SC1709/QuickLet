@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const dotenv = require("dotenv");
 const dbConnect = require("./config/db");
+const userRoutes = require("./routes/UserRoutes");
 
 const app = express();
 app.use(express.json());
@@ -13,9 +14,7 @@ dotenv.config();
 dbConnect();
 const PORT = process.env.PORT || 3000;
 
-app.get("/", (req, res) => {
-  res.send("Hello World!");
-});
+app.use("/api/users",userRoutes);
 
 app.listen(PORT, () => {
   console.log(`server is running on port: ${PORT}`);

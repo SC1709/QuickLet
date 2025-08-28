@@ -16,7 +16,7 @@ dbConnect();
 const PORT = process.env.PORT || 3000;
 
 app.use("/api/users", userRoutes);
-app.use("/api/products",ProductRoutes)
+app.use("/api/products", ProductRoutes);
 
 app.listen(PORT, () => {
   console.log(`server is running on port: ${PORT}`);

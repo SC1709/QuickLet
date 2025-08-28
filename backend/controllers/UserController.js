@@ -37,7 +37,7 @@ const createUser = async (req, res) => {
   }
 };
 
-const LoginUser= async (req,res) => {
+const LoginUser = async (req, res) => {
   const { email, password } = req.body;
 
   try {
@@ -51,7 +51,7 @@ const LoginUser= async (req,res) => {
     if (!isMatch) {
       return res.status(400).json({ message: "Invalid credentials" });
     }
-    
+
     // create jwt token
     const payload = { user: { id: user._id, role: user.role } };
     const token = jwt.sign(payload, process.env.JWT_SECRET, {
@@ -69,5 +69,9 @@ const LoginUser= async (req,res) => {
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
-}
-module.exports = { createUser,LoginUser };
+};
+
+const getPtofile = async (req, res) => {
+  res.send(req.user);
+};
+module.exports = { createUser, LoginUser, getPtofile };

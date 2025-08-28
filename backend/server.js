@@ -14,7 +14,7 @@ dotenv.config();
 dbConnect();
 const PORT = process.env.PORT || 3000;
 
-app.use("/api/users",userRoutes);
+app.use("/api/users", userRoutes);
 
 app.listen(PORT, () => {
   console.log(`server is running on port: ${PORT}`);

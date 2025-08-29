@@ -134,4 +134,77 @@ const deleteProduct = async (req, res) => {
   }
 };
 
-module.exports = { createProduct, updateProduct, deleteProduct };
+const getAllProducts = async (req, res) => {
+  try {
+    const {
+      collection,
+      size,
+      color,
+      gender,
+      minPrice,
+      maxPrice,
+      sortBy,
+      search,
+      category,
+      material,
+      brand,
+      limit,
+    } = req.query;
+
+    let query = {};
+
+    // filter the products logic
+    if (collection && collection.toLocaleLowerCase() !== "all")
+      query.collections = collection;
+    if (category && category.toLocaleLowerCase() !== "all")
+      query.category = category;
+    if (material) query.material = { $in: material.split(",") };
+    if (size) query.sizes = { $in: size.split(",") };
+    if (brand) query.brand = { $in: brand.split(",") };
+    if (color) query.colors = { $in: [color] };
+    if (gender) query.gender = gender;
+    if (minPrice || maxPrice) {
+      query.price = {};
+      if (minPrice) query.price.$gte = Number(minPrice);
+      if (maxPrice) query.price.$lte = Number(maxPrice);
+    }
+    if (search) {
+      query.$or = [
+        { name: { $regex: search, $options: "i" } },
+        { description: { $regex: search, $options: "i" } },
+      ];
+    }
+
+    // sort logic
+    let sort = {}
+    if (sortBy) {
+      switch (sortBy) {
+        case "priceAsc":
+          sort = { price: 1 };
+          break;
+        case "priceDesc":
+          sort = { price: -1 };
+          break;
+        case "popularity":
+          sort = { rating: -1 };
+          break;
+        default:
+          break;
+      }
+    }
+
+    const products = await Product.find(query)
+      .sort(sort)
+      .limit(Number(limit || 0));
+    res.status(200).json({ products });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+module.exports = {
+  createProduct,
+  updateProduct,
+  deleteProduct,
+  getAllProducts,
+};

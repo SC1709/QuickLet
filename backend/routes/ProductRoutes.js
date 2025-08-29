@@ -1,9 +1,15 @@
 const express = require("express");
-const { createProduct } = require("../controllers/ProductController");
+const {
+  createProduct,
+  updateProduct,
+  deleteProduct,
+} = require("../controllers/ProductController");
 const { protect, admin } = require("../middleware/authMiddleware");
 
 const ProductRoutes = express.Router();
 
-ProductRoutes.post("/", protect,admin, createProduct);
+ProductRoutes.post("/", protect, admin, createProduct);
+ProductRoutes.put("/:id", protect, admin, updateProduct);
+ProductRoutes.delete("/:id", protect, admin, deleteProduct);
 
 module.exports = ProductRoutes;

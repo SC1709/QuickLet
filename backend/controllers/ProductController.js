@@ -176,7 +176,7 @@ const getAllProducts = async (req, res) => {
     }
 
     // sort logic
-    let sort = {}
+    let sort = {};
     if (sortBy) {
       switch (sortBy) {
         case "priceAsc":
@@ -214,9 +214,69 @@ const getProductById = async (req, res) => {
   }
 };
 
+const getSimilarProducts = async (req, res) => {
+  try {
+    const product = await Product.findById(req.params.id);
+    if (!product) {
+      return res.status(404).json({ error: "Product not found" });
+    }
+    const similarProducts = await Product.find({
+      _id: { $ne: product._id }, // exclude the same product
+      gender: product.gender,
+      category: product.category,
+      // brand: product.brand
+    }).limit(4);
+    // randomness here
+    // const similarProducts = await Product.aggregate([
+    //   {
+    //     $match: {
+    //       _id: { $ne: product._id },
+    //       gender: product.gender,
+    //       category: product.category,
+    //       brand: product.brand,
+    //     },
+    //   },
+    //   { $sample: { size: 4 } }, // randomly pick 4
+    // ]);
+
+    res.status(200).json({ similarProducts });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+const getProductsBestSellers = async (req, res) => {
+  try {
+    const bestSeller = await Product.findOne().sort({ rating: -1 });
+    if (!bestSeller) {
+      return res.status(404).json({ error: "No best seller found" });
+    }
+    res.status(200).json({ bestSeller });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+const getProductsNewArrivals = async (req, res) => {
+  try {
+    // fetch last 8 products
+    const newArrivals = await Product.find().sort({ createdAt: -1 }).limit(8);
+    if (!newArrivals) {
+      return res.status(404).json({ error: "No new Arrivals found" });
+    }
+    res.status(200).json({ newArrivals });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 module.exports = {
   createProduct,
   updateProduct,
   deleteProduct,
-  getAllProducts, getProductById
+  getAllProducts,
+  getProductById,
+  getSimilarProducts,
+  getProductsBestSellers,
+  getProductsNewArrivals,
 };

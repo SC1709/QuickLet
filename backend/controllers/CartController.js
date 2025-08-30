@@ -85,4 +85,75 @@ const createCart = async (req, res) => {
   }
 };
 
-module.exports = { createCart };
+const updateCart = async (req, res) => {
+  const { productId, quantity, color, size, guestId, userId } = req.body;
+  try {
+    let cart = await getCart(guestId, userId);
+    if (!cart) {
+      return res.status(404).json({ error: "Cart not found" });
+    }
+    const productIndex = cart.products.findIndex(
+      (p) =>
+        p.productId.toString() === productId &&
+        p.color === color &&
+        p.size === size
+    );
+    if (productIndex > -1) {
+      // update the quantity
+      if (quantity > 0) {
+        cart.products[productIndex].quantity = quantity;
+      } else {
+        cart.products.splice(productIndex, 1); //remove the product if quantity is 0
+      }
+
+      // Recalculate the total price and save the cart
+      cart.totalPrice = cart.products.reduce(
+        (acc, item) => acc + item.price * item.quantity,
+        0
+      );
+      await cart.save();
+      return res
+        .status(200)
+        .json({ message: "Cart updated successfully", cart });
+    } else {
+      return res.status(404).json({ error: "Product not found in cart" });
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+const deleteCart = async (req, res) => {
+  const { productId, color, size, guestId, userId } = req.body;
+  try {
+    let cart = await getCart(guestId, userId);
+    if (!cart) {
+      return res.status(404).json({ error: "Cart not found" });
+    }
+    const productIndex = cart.products.findIndex(
+      (p) =>
+        p.productId.toString() === productId &&
+        p.color === color &&
+        p.size === size
+    );
+    if (productIndex > -1) {
+      // remove the product
+      cart.products.splice(productIndex, 1);
+      // Recalculate the total price and save the cart
+      cart.totalPrice = cart.products.reduce(
+        (acc, item) => acc + item.price * item.quantity,
+        0
+      );
+      await cart.save();
+      return res
+        .status(200)
+        .json({ message: "Cart updated successfully", cart });
+    } else {
+      return res.status(404).json({ error: "Product not found in cart" });
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+module.exports = { createCart, updateCart, deleteCart };

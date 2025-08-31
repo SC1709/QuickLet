@@ -169,4 +169,78 @@ const getCartInfo = async (req, res) => {
   }
 };
 
-module.exports = { createCart, updateCart, deleteCart, getCartInfo };
+const mergerCarts = async (req, res) => {
+  const { guestId } = req.body;
+  try {
+    const guestCart = await Cart.findOne({ guestId });
+    const userCart = await Cart.findOne({ user: req.user._id });
+
+    if (guestCart) {
+      if (guestCart.products.length === 0) {
+        return res.status(400).json({ error: "Guest Cart is empty" });
+      }
+      if (userCart) {
+        // Merge guest cart into user cart
+        guestCart.products.forEach((guestItem) => {
+          const productIndex = userCart.products.findIndex(
+            (item) =>
+              item.productId.toString() === guestItem.productId.toString() &&
+              item.size === guestItem.size &&
+              item.color === guestItem.color
+          );
+          if (productIndex > -1) {
+            // if the item exists in the user cart, update the quantity
+            userCart.products[productIndex].quantity += guestItem.quantity;
+          } else {
+            // add guest item to cart
+            userCart.products.push(guestItem);
+          }
+        });
+        userCart.totalPrice = userCart.products.reduce(
+          (acc, item) => acc + item.price * item.quantity,
+          0
+        );
+        await userCart.save();
+
+        // remove the guest cart after merging
+        try {
+          await Cart.findOneAndDelete({ guestId });
+        } catch (error) {
+          res.status(500).json({ error: error.message });
+        }
+        return res.status(200).json({
+          message: "Carts merged successfully",
+          userCart,
+        });
+      } else {
+        // if the user has no existing cart, just assign guest Cart to the user
+        guestCart.user = req.user._id;
+        guestCart.guestId = undefined; // remove guestId
+        await guestCart.save();
+
+        return res.status(200).json({
+          message: "Guest cart assigned to user",
+          guestCart,
+        });
+      }
+    } else {
+      if (userCart) {
+        return res.status(200).json({
+          message: "Guest cart already assigned to user",
+          userCart,
+        });
+      }
+      return res.status(404).json({ error: "Guest cart not found" });
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+module.exports = {
+  createCart,
+  updateCart,
+  deleteCart,
+  getCartInfo,
+  mergerCarts,
+};

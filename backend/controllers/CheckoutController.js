@@ -28,4 +28,30 @@ const createCheckout = async (req, res) => {
   }
 };
 
-module.exports = { createCheckout };
+const updateCheckout = async (req, res) => {
+  const { paymentStatus, paymentDetails } = req.body;
+  try {
+    const checkout = await Checkout.findById(req.params.id);
+    if (!checkout) {
+      return res.status(404).json({ error: "Checkout not found" });
+    }
+
+    if (paymentStatus === "Paid") {
+      checkout.isPaid = true;
+      checkout.paymentStatus = paymentStatus;
+      checkout.paymentDetails = paymentDetails;
+      checkout.paidAt = Date.now();
+
+      await checkout.save();
+      return res
+        .status(200)
+        .json({ message: "Checkout updated successfully", checkout });
+    } else {
+      return res.status(400).json({ error: "Payment not successful" });
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+module.exports = { createCheckout, updateCheckout };

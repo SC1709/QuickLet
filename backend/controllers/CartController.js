@@ -156,4 +156,17 @@ const deleteCart = async (req, res) => {
   }
 };
 
-module.exports = { createCart, updateCart, deleteCart };
+const getCartInfo = async (req, res) => {
+  const { guestId, userId } = req.query;
+  try {
+    const cart = await getCart(guestId, userId);
+    if (!cart) {
+      return res.status(404).json({ error: "Cart not found" });
+    }
+    res.status(200).json({ message: "Cart found successfully", cart });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+module.exports = { createCart, updateCart, deleteCart, getCartInfo };

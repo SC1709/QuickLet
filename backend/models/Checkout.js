@@ -19,12 +19,13 @@ const checkoutItemSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
-    // size: String,
-    // color: String,
-    // quantity: {
-    //     type: Number,
-    //     default: 1,
-    // },
+    size: String,
+    color: String,
+    quantity: {
+      type: Number,
+      required: true,
+      default: 1,
+    },
   },
   { _id: false }
 );

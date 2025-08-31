@@ -14,6 +14,6 @@ CartRoutes.post("/", createCart);
 CartRoutes.put("/", updateCart);
 CartRoutes.delete("/", deleteCart);
 CartRoutes.get("/", getCartInfo);
-CartRoutes.post("/merge",protect, mergerCarts);
+CartRoutes.post("/merge", protect, mergerCarts);
 
 module.exports = CartRoutes;

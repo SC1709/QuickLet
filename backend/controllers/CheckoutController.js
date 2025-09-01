@@ -1,5 +1,6 @@
 const Checkout = require("../models/Checkout");
 const Order = require("../models/Order");
+const Cart = require("../models/Cart");
 
 const createCheckout = async (req, res) => {
   const { checkoutItems, shippingAddress, paymentMethod, totalPrice } =
@@ -19,8 +20,6 @@ const createCheckout = async (req, res) => {
       paymentStatus: "Pending",
       isPaid: false,
     });
-    console.log(req.user._id);
-
     res
       .status(201)
       .json({ message: "Checkout created successfully", checkout });

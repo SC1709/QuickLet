@@ -12,4 +12,19 @@ const getAllOrders = async (req, res) => {
   }
 };
 
-module.exports = { getAllOrders };
+const getOrderById = async (req, res) => {
+  try {
+    // find order by id for authenticated user
+    const order = await Order.findById(req.params.id).populate("user", "name email");
+    if (!order) {
+      return res.status(404).json({ error: "Order not found" });
+    }
+
+    // return the full order details
+    res.status(200).json({ message: "Order found successfully", order });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+module.exports = { getAllOrders, getOrderById };

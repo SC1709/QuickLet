@@ -54,4 +54,21 @@ const updateCheckout = async (req, res) => {
   }
 };
 
-module.exports = { createCheckout, updateCheckout };
+const confirmedCheckout = async (req, res) => {
+  try {
+    const checkout = await Checkout.findById(req.params.id);
+    if (!checkout) {
+      return res.status(404).json({ error: "Checkout not found" });
+    }
+    if(checkout.isPaid && !checkout.isFinalized){
+        
+    }
+    checkout.confirmed = true;
+    await checkout.save();
+    res.status(200).json({ message: "Checkout confirmed successfully" });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+module.exports = { createCheckout, updateCheckout,confirmedCheckout };

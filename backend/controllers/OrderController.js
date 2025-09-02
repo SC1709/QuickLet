@@ -15,7 +15,10 @@ const getAllOrders = async (req, res) => {
 const getOrderById = async (req, res) => {
   try {
     // find order by id for authenticated user
-    const order = await Order.findById(req.params.id).populate("user", "name email");
+    const order = await Order.findById(req.params.id).populate(
+      "user",
+      "name email"
+    );
     if (!order) {
       return res.status(404).json({ error: "Order not found" });
     }

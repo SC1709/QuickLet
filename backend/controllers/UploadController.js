@@ -6,7 +6,7 @@ dotenv.config();
 
 // configure cloudinary
 cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_NAME,
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
   secure: true,
@@ -41,7 +41,6 @@ const uploadImage = async (req, res) => {
     res.status(200).json({
       message: "Image uploaded successfully",
       imageUrl: result.secure_url, 
-      public_id: result.public_id,
     });
   } catch (error) {
     res.status(500).json({ error: error.message });

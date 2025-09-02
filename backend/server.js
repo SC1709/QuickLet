@@ -7,6 +7,7 @@ const ProductRoutes = require("./routes/ProductRoutes");
 const CartRoutes = require("./routes/CartRoutes");
 const CheckoutRoutes = require("./routes/CheckoutRoute");
 const OrderRoutes = require("./routes/OrderRoutes");
+const UploadRoutes = require("./routes/UploadRoutes");
 
 const app = express();
 app.use(express.json());
@@ -23,6 +24,7 @@ app.use("/api/products", ProductRoutes);
 app.use("/api/cart", CartRoutes);
 app.use("/api/checkout", CheckoutRoutes);
 app.use("/api/orders", OrderRoutes);
+app.use("/api/upload", UploadRoutes);
 
 app.listen(PORT, () => {
   console.log(`server is running on port: ${PORT}`);

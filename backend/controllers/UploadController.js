@@ -23,7 +23,7 @@ const uploadImage = async (req, res) => {
     const streamUpload = (fileBuffer) => {
       return new Promise((resolve, reject) => {
         const stream = cloudinary.uploader.upload_stream(
-          { folder: "ecommerce" }, 
+          { folder: "ecommerce" },
           (error, result) => {
             if (result) resolve(result);
             else reject(error);
@@ -40,7 +40,7 @@ const uploadImage = async (req, res) => {
     // respond with the uploaded file URL
     res.status(200).json({
       message: "Image uploaded successfully",
-      imageUrl: result.secure_url, 
+      imageUrl: result.secure_url,
     });
   } catch (error) {
     res.status(500).json({ error: error.message });

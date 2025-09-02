@@ -1,4 +1,4 @@
-const Subscribe = require("../models/subscribeModel");
+const Subscribe = require("../models/Subscribe");
 
 const createSubscribe = async (req, res) => {
   const { email } = req.body;
@@ -15,14 +15,12 @@ const createSubscribe = async (req, res) => {
     }
 
     // create new subscribe
-    const newSubscribe = new Subscribe({ email });
+    let newSubscribe = new Subscribe({ email });
     newSubscribe = await newSubscribe.save();
-    res
-      .status(201)
-      .json({
-        message: "Successfully subscribed to newsletter!",
-        newSubscribe,
-      });
+    res.status(201).json({
+      message: "Successfully subscribed to newsletter!",
+      newSubscribe,
+    });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

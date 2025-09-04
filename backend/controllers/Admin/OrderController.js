@@ -9,6 +9,24 @@ const getAllOrder = async (req, res) => {
   }
 };
 
+const updateOrder = async (req, res) => {
+  const { id } = req.params;
+  const { status } = req.body;
+  try {
+    const order = await Order.findById(id);
+    if (!order) {
+      return res.status(404).json({ message: "Order not found" });
+    }
+    order.status = status || order.status;
+    order.isDelivered = status === "Delivered" ? true : order.isDelivered;
+    order.deliveredAt = status === "Delivered" ? Date.now() : order.deliveredAt;
+    await order.save();
+    res.status(200).json({ message: "Order updated successfully", order });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 
 
 module.exports = { getAllOrder, updateOrder, deleteOrder };

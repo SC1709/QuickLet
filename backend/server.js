@@ -34,7 +34,7 @@ app.use("/api/subscribe", SubscribeRoutes);
 // Admin Routes
 app.use("/api/admin/users", AdminUserRoutes);
 app.use("/api/admin/products", AdminProductRoutes);
-app.use("/api/admin/orders",AdminOrderRoutes)
+app.use("/api/admin/orders", AdminOrderRoutes);
 
 app.listen(PORT, () => {
   console.log(`server is running on port: ${PORT}`);

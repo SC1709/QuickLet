@@ -1,4 +1,5 @@
 const User = require("../models/User");
+const bcrypt = require("bcryptjs");
 
 const getAllUsers = async (req, res) => {
   try {
@@ -16,10 +17,14 @@ const addUser = async (req, res) => {
     if (user) {
       return res.status(400).json({ message: "User already exists" });
     }
+
+    // hash password
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
     const newUser = new User({
       name,
       email,
-      password,
+      password: hashedPassword,
       role: role || "customer",
     });
     await newUser.save();
@@ -29,4 +34,25 @@ const addUser = async (req, res) => {
   }
 };
 
-module.exports = { getAllUsers, addUser };
+const updateUser = async (req, res) => {
+  const { id } = req.params;
+  const { name, email, password, role } = req.body;
+  try {
+    const user = await User.findById(id);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    user.name = name || user.name;
+    user.email = email || user.email;
+    user.password = password || user.password;
+    user.role = role || user.role;
+    const updatedUser = await user.save();
+    res
+      .status(200)
+      .json({ message: "User updated successfully", user: updatedUser });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+module.exports = { getAllUsers, addUser, updateUser };

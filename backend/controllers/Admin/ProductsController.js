@@ -1,12 +1,12 @@
-const Product=require("../../models/Product")
+const Product = require("../../models/Product");
 
-const getAllProducts=async(req,res)=>{
-    try{
-        const products=await Product.find()
-        res.status(200).json({message:"Products found successfully", products})
-    }catch(error){
-        res.status(500).json({error:error.message})
-    }
-}
+const getAllProducts = async (req, res) => {
+  try {
+    const products = await Product.find();
+    res.status(200).json({ message: "Products found successfully", products });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
 
-module.exports={getAllProducts}
+module.exports = { getAllProducts };

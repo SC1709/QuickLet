@@ -21,7 +21,7 @@ const initialState = {
 };
 
 // Async Thunk for user login
-export const login = createAsyncThunk(
+export const loginUser = createAsyncThunk(
   "auth/loginUser",
   async (userData, { rejectWithValue }) => {
     try {
@@ -39,7 +39,7 @@ export const login = createAsyncThunk(
 );
 
 // Async Thunk for user register
-export const register = createAsyncThunk(
+export const registerUser = createAsyncThunk(
   "auth/registerUser",
   async (registerData, { rejectWithValue }) => {
     try {
@@ -73,27 +73,27 @@ const authSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(login.pending, (state) => {
+    builder.addCase(loginUser.pending, (state) => {
       state.loading = true;
       state.error = null;
     });
-    builder.addCase(login.fulfilled, (state, action) => {
+    builder.addCase(loginUser.fulfilled, (state, action) => {
       state.loading = false;
-      state.user = action.payload;
+      state.error = action.payload;
     });
-    builder.addCase(login.rejected, (state, action) => {
+    builder.addCase(loginUser.rejected, (state, action) => {
       state.loading = false;
       state.error = action.payload.message;
     });
-    builder.addCase(register.pending, (state) => {
+    builder.addCase(registerUser.pending, (state) => {
       state.loading = true;
       state.error = null;
     });
-    builder.addCase(register.fulfilled, (state, action) => {
+    builder.addCase(registerUser.fulfilled, (state, action) => {
       state.loading = false;
-      state.user = action.payload;
+      state.error = action.payload;
     });
-    builder.addCase(register.rejected, (state, action) => {
+    builder.addCase(registerUser.rejected, (state, action) => {
       state.loading = false;
       state.error = action.payload.message;
     });

@@ -1,6 +1,7 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
+import { updateProduct } from "./productSlice";
 
 // async thunk to fetch all products
 export const fetchProductsByFilter = createAsyncThunk(
@@ -76,3 +77,108 @@ export const fetchSimilarProducts = createAsyncThunk(
     return response.data;
   }
 );
+
+const productSlice = createSlice({
+  name: "products",
+  initialState: {
+    products: [],
+    selectedProduct: null, //store details of the selected product
+    similarProducts: [],
+    loading: false,
+    error: null,
+    filters: {
+      collection: "",
+      size: "",
+      color: "",
+      gender: "",
+      minPrice: "",
+      maxPrice: "",
+      sortBy: "",
+      search: "",
+      category: "",
+      material: "",
+      brand: "",
+    },
+  },
+  reducers: {
+    setFilters: (state, action) => {
+      state.filters = { ...state.filters, ...action.payload };
+    },
+    clearFilters: (state) => {
+      state.filters = {
+        collection: "",
+        size: "",
+        color: "",
+        gender: "",
+        minPrice: "",
+        maxPrice: "",
+        sortBy: "",
+        search: "",
+        category: "",
+        material: "",
+        brand: "",
+      };
+    },
+  },
+  extraReducers: (builder) => {
+    builder
+      // handle fetching products with filter
+      .addCase(fetchProductsByFilter.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchProductsByFilter.fulfilled, (state, action) => {
+        state.loading = false;
+        state.products = Array.isArray(action.payload) ? action.payload : [];
+      })
+      .addCase(fetchProductsByFilter.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
+      // handle fetching single product details
+      .addCase(fetchProductById.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchProductById.fulfilled, (state, action) => {
+        state.loading = false;
+        state.selectedProduct = action.payload;
+      })
+      .addCase(fetchProductById.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
+      // handle update product
+      .addCase(updateProduct.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(updateProduct.fulfilled, (state, action) => {
+        state.loading = false;
+        const updatedProduct = action.payload;
+        const index = state.products.findIndex(
+          (product) => product._id === updateProduct._id
+        );
+        if (index !== -1) {
+          state.products[index] = updatedProduct;
+        }
+      })
+      .addCase(updateProduct.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      })
+      // handle fetching single product details
+      .addCase(fetchSimilarProducts.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchSimilarProducts.fulfilled, (state, action) => {
+        state.loading = false;
+        state.similarProducts = action.payload;
+      })
+      .addCase(fetchSimilarProducts.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      });
+  },
+});

@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
+const bcrypt = require("bcryptjs")
 const products = require("./data/products");
 const User = require("./models/User");
 const Product = require("./models/Product");
@@ -14,7 +15,7 @@ mongoose.connect(process.env.MONGO_URL);
 const seedData = async () => {
   try {
     // Clear existing data
-    await User.deleteMany();
+    // await User.deleteMany();
     await Product.deleteMany();
     await Cart.deleteMany();
 
@@ -22,7 +23,7 @@ const seedData = async () => {
     const createdUser = await User.create({
       name: "Admin User",
       email: "admin@example.com",
-      password: "123456",
+      password: bcrypt.hashSync("123456", 10),
       role: "admin",
     });
 

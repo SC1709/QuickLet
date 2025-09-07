@@ -182,3 +182,6 @@ const productSlice = createSlice({
       });
   },
 });
+
+export const { setFilters, clearFilters } = productSlice.actions;
+export default productSlice.reducer;

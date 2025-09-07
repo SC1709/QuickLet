@@ -1,4 +1,4 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
@@ -113,3 +113,62 @@ export const mergeGuestCart = createAsyncThunk(
     }
   }
 );
+
+const cartSlice = createSlice({
+  name: "cart",
+  initialState: {
+    cart: loadCartData(),
+    loading: false,
+    error: null,
+  },
+  reducers: {
+    clearCart: (state) => {
+      state.cart = { products: [] };
+      localStorage.removeItem("cart");
+    }
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchCart.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchCart.fulfilled, (state, action) => {
+        state.loading = false;
+        state.cart = action.payload;
+        saveCartData(action.payload);
+      })
+      .addCase(fetchCart.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message || "Failed to fetch cart";
+      })
+
+      .addCase(addToCart.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(addToCart.fulfilled, (state, action) => {
+        state.loading = false;
+        state.cart = action.payload;
+        saveCartData(action.payload);
+      })
+      .addCase(addToCart.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload?.message || "Failed to add to cart";
+      })
+
+      .addCase(updateCart.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(updateCart.fulfilled, (state, action) => {
+        state.loading = false;
+        state.cart = action.payload;
+        saveCartData(action.payload);
+      })
+      .addCase(updateCart.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message || "Failed to update item quantity in cart";
+      })
+  },
+});

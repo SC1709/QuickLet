@@ -53,3 +53,41 @@ export const addToCart = createAsyncThunk(
     }
   }
 );
+
+// update the quantity of an item in cart
+export const updateCart = createAsyncThunk(
+  "cart/updateCart",
+  async (
+    { guestId, userId, productId, quantity, size, color },
+    { rejectWithValue }
+  ) => {
+    try {
+      const response = await axios.put(`${backendUrl}/api/carts`, {
+        guestId,
+        userId,
+        productId,
+        quantity,
+        size,
+        color,
+      });
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+// Remove an item from cart
+export const removeFromCart = createAsyncThunk(
+  "cart/removeFromCart",
+  async ({ guestId, userId, productId, size, color }, { rejectWithValue }) => {
+    try {
+      const response = await axios.delete(`${backendUrl}/api/carts`, {
+        data: { guestId, userId, productId, size, color },
+      });
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);

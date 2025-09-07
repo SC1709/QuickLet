@@ -31,3 +31,25 @@ export const fetchCart = createAsyncThunk(
   }
 );
 
+// Add an item to cart for a user or guest
+export const addToCart = createAsyncThunk(
+  "cart/addToCart",
+  async (
+    { guestId, userId, productId, quantity, size, color },
+    { rejectWithValue }
+  ) => {
+    try {
+      const response = await axios.post(`${backendUrl}/api/carts`, {
+        guestId,
+        userId,
+        productId,
+        quantity,
+        size,
+        color,
+      });
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);

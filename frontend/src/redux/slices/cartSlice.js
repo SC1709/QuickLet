@@ -13,3 +13,21 @@ const saveCartData = (cartData) => {
   localStorage.setItem("cart", JSON.stringify(cartData));
 };
 
+// Fetch cart data for a user or guest
+export const fetchCart = createAsyncThunk(
+  "cart/fetchCart",
+  async ({ guestId, userId }, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(`${backendUrl}/api/carts`, {
+        params: {
+          guestId,
+          userId,
+        },
+      });
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+

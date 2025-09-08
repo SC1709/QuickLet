@@ -1,7 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
-import { updateProduct } from "./productSlice";
 
 // async thunk to fetch all products
 export const fetchProductsByFilter = createAsyncThunk(

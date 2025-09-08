@@ -125,7 +125,7 @@ const cartSlice = createSlice({
     clearCart: (state) => {
       state.cart = { products: [] };
       localStorage.removeItem("cart");
-    }
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -168,7 +168,25 @@ const cartSlice = createSlice({
       })
       .addCase(updateCart.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.error.message || "Failed to update item quantity in cart";
+        state.error =
+          action.payload?.message || "Failed to update item quantity in cart";
       })
+
+      .addCase(mergeGuestCart.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(mergeGuestCart.fulfilled, (state, action) => {
+        state.loading = false;
+        state.cart = action.payload;
+        saveCartData(action.payload);
+      })
+      .addCase(mergeGuestCart.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload?.message || "Failed to merge cart";
+      });
   },
 });
+
+export const { clearCart } = cartSlice.actions;
+export default cartSlice.reducer;

@@ -18,3 +18,20 @@ export const fetchAllOrders = createAsyncThunk(
     }
   }
 );
+
+// Async thunk to fetch orders details by Id
+export const fetchOrderDetails = createAsyncThunk(
+  "/orders/fetchOrderDetails",
+  async ({ orderId }, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(`${backendUrl}/api/orders/${orderId}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+        },
+      });
+      return response.data;
+    } catch (error) {
+      rejectWithValue(error.response.data);
+    }
+  }
+);

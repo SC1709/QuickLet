@@ -16,4 +16,24 @@ export const fetchAdminProducts = createAsyncThunk(
   }
 );
 
-//
+// async thunk to add products
+export const addProduct = createAsyncThunk(
+  "admin/addProduct",
+  async (productData, { rejectWithValue }) => {
+    try {
+      const response = await axios.post(
+        `${backendUrl}/api/admin/products`,
+        productData,
+        {
+          headers: {
+            Authorization: USER_TOKEN,
+          },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+

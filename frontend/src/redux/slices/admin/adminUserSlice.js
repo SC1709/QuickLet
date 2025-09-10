@@ -30,3 +30,20 @@ export const addUser = createAsyncThunk(
     }
   }
 );
+
+// update user info
+export const updateUser = createAsyncThunk(
+  "admin/updateUsers",
+  async ({ id, name, email, role }) => {
+    const response = await axios.put(
+      `${backendUrl}/api/admin/users/${id}`,
+      { name, email, role },
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+        },
+      }
+    );
+    return response.data;
+  }
+);

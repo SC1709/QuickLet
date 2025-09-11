@@ -57,3 +57,74 @@ export const deleteOrder = createAsyncThunk(
     }
   }
 );
+
+const adminOrderSlice = createSlice({
+  name: "adminOrders",
+  initialState: {
+    orders: [],
+    totalOrders: 0,
+    totalSales: 0,
+    loading: false,
+    error: null,
+  },
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      // fetch all orders
+      .addCase(fetchOrders.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchOrders.fulfilled, (state, action) => {
+        state.loading = false;
+        state.orders = action.payload;
+        state.totalOrders = action.payload.length;
+
+        // calculate total sales
+        const totalSales = action.payload.reduce((acc, order) => {
+          return acc + order.totalPrice;
+        }, 0);
+        state.totalSales = totalSales;
+      })
+      .addCase(fetchOrders.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload.message;
+      })
+      //   update order delivery status
+      .addCase(updateOrderStatus.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(updateOrderStatus.fulfilled, (state, action) => {
+        state.loading = false;
+        const updatedOrder = action.payload;
+        const orderIndex = state.orders.findIndex(
+          (order) => order._id === updatedOrder._id
+        );
+        if (orderIndex !== -1) {
+          state.orders[orderIndex] = updatedOrder;
+        }
+      })
+      .addCase(updateOrderStatus.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload.message;
+      })
+      // delete an order
+      .addCase(deleteOrder.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(deleteOrder.fulfilled, (state, action) => {
+        state.loading = false;
+        state.orders = state.orders.filter(
+          (order) => order._id !== action.payload
+        );
+      })
+      .addCase(deleteOrder.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload.message;
+      });
+  },
+});
+
+export default adminOrderSlice.reducer;

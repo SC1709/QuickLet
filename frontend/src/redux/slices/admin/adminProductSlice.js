@@ -62,14 +62,11 @@ export const updateProduct = createAsyncThunk(
 export const deleteProduct = createAsyncThunk(
   "adminProducts/deleteProduct",
   async (id) => {
-    const response = await axios.delete(
-      `${backendUrl}/api/admin/products/${id}`,
-      {
-        headers: {
-          Authorization: USER_TOKEN,
-        },
-      }
-    );
+    await axios.delete(`${backendUrl}/api/admin/products/${id}`, {
+      headers: {
+        Authorization: USER_TOKEN,
+      },
+    });
     return id;
   }
 );

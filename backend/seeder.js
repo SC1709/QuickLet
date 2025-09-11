@@ -15,7 +15,7 @@ mongoose.connect(process.env.MONGO_URL);
 const seedData = async () => {
   try {
     // Clear existing data
-    // await User.deleteMany();
+    await User.deleteMany();
     await Product.deleteMany();
     await Cart.deleteMany();
 

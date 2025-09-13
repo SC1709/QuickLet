@@ -48,10 +48,9 @@ const createProduct = async (req, res) => {
     });
 
     const createProduct = await product.save();
-    res.status(201).json({
-      message: "Product created successfully",
+    res.status(201).json(
       createProduct,
-    });
+      { message: "Product created successfully" });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -115,7 +114,7 @@ const updateProduct = async (req, res) => {
     const updatedProduct = await product.save();
     res
       .status(200)
-      .json({ message: "Product updated successfully", updatedProduct });
+      .json( updatedProduct , { message: "Product updated successfully" });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -196,7 +195,7 @@ const getAllProducts = async (req, res) => {
     const products = await Product.find(query)
       .sort(sort)
       .limit(Number(limit || 0));
-    res.status(200).json({ products });
+    res.status(200).json( products );
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -208,7 +207,7 @@ const getProductById = async (req, res) => {
     if (!product) {
       return res.status(404).json({ error: "Product not found" });
     }
-    res.status(200).json({ product });
+    res.status(200).json( product );
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -239,7 +238,7 @@ const getSimilarProducts = async (req, res) => {
     //   { $sample: { size: 4 } }, // randomly pick 4
     // ]);
 
-    res.status(200).json({ similarProducts });
+    res.status(200).json( similarProducts );
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -251,7 +250,7 @@ const getProductsBestSellers = async (req, res) => {
     if (!bestSeller) {
       return res.status(404).json({ error: "No best seller found" });
     }
-    res.status(200).json({ bestSeller });
+    res.status(200).json( bestSeller );
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -264,7 +263,7 @@ const getProductsNewArrivals = async (req, res) => {
     if (!newArrivals) {
       return res.status(404).json({ error: "No new Arrivals found" });
     }
-    res.status(200).json({ newArrivals });
+    res.status(200).json( newArrivals );
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

@@ -69,7 +69,7 @@ export const updateProduct = createAsyncThunk(
 // async thunk to fetch similar products
 export const fetchSimilarProducts = createAsyncThunk(
   "products/fetchSimilarProducts",
-  async (id) => {
+  async ({id}) => {
     const response = await axios.get(
       `${backendUrl}/api/products/similar/${id}`
     );
@@ -166,7 +166,7 @@ const productSlice = createSlice({
         state.loading = false;
         state.error = action.error.message;
       })
-      // handle fetching single product details
+      // handle fetching similar product details
       .addCase(fetchSimilarProducts.pending, (state) => {
         state.loading = true;
         state.error = null;

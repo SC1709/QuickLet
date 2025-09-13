@@ -19,7 +19,7 @@ const NewArrival = () => {
         const response = await axios.get(
           `${backendUrl}/api/products/new-arrivals`
         );
-        setNewArrivals(response.data.newArrivals);
+        setNewArrivals(response.data);
       } catch (error) {
         console.error("Error fetching new arrivals:", error);
       }

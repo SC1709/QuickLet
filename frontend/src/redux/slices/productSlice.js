@@ -69,7 +69,7 @@ export const updateProduct = createAsyncThunk(
 // async thunk to fetch similar products
 export const fetchSimilarProducts = createAsyncThunk(
   "products/fetchSimilarProducts",
-  async ({id}) => {
+  async ({ id }) => {
     const response = await axios.get(
       `${backendUrl}/api/products/similar/${id}`
     );

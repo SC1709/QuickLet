@@ -8,6 +8,7 @@ import FeaturedCollection from "../components/Products/FeaturedCollection";
 import FeaturesSection from "../components/Products/FeaturesSection";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
+import { fetchProductsByFilter } from "../redux/slices/productSlice";
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
 const Home = () => {
@@ -24,6 +25,7 @@ const Home = () => {
         limit: 8,
       })
     );
+
     // Fetch best seller products
     const fetchBestSellerProducts = async () => {
       try {
@@ -38,6 +40,7 @@ const Home = () => {
 
     fetchBestSellerProducts();
   }, [dispatch]);
+
   return (
     <div>
       <Hero />

@@ -172,6 +172,21 @@ const cartSlice = createSlice({
           action.payload?.message || "Failed to update item quantity in cart";
       })
 
+      .addCase(removeFromCart.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(removeFromCart.fulfilled, (state, action) => {
+        state.loading = false;
+        state.cart = action.payload;
+        saveCartData(action.payload);
+      })
+      .addCase(removeFromCart.rejected, (state, action) => {
+        state.loading = false;
+        state.error =
+          action.payload?.message || "Failed to remove item from cart";
+      })
+
       .addCase(mergeGuestCart.pending, (state) => {
         state.loading = true;
         state.error = null;

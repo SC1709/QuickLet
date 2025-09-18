@@ -22,7 +22,7 @@ const createCheckout = async (req, res) => {
     });
     res
       .status(201)
-      .json({ message: "Checkout created successfully", checkout });
+      .json(checkout, { message: "Checkout created successfully" });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -45,7 +45,7 @@ const updateCheckout = async (req, res) => {
       await checkout.save();
       return res
         .status(200)
-        .json({ message: "Checkout updated successfully", checkout });
+        .json(checkout, { message: "Checkout updated successfully" });
     } else {
       return res.status(400).json({ error: "Payment not successful" });
     }
@@ -84,7 +84,7 @@ const confirmedCheckout = async (req, res) => {
       await Cart.findOneAndDelete({ user: checkout.user });
       return res
         .status(200)
-        .json({ message: "Checkout finalized successfully", finalOrder });
+        .json(finalOrder, { message: "Checkout finalized successfully" });
     } else if (checkout.isFinalized) {
       return res.status(400).json({ error: "Checkout already finalized" });
     } else {

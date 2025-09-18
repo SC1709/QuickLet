@@ -57,7 +57,7 @@ const createCart = async (req, res) => {
       await cart.save();
       return res
         .status(200)
-        .json({ message: "Cart updated successfully", cart });
+        .json(cart, { message: "Cart updated successfully" });
     } else {
       // if cart doesn't exist, create a new one for the user or guest
       const newCart = await Cart.create({
@@ -78,7 +78,7 @@ const createCart = async (req, res) => {
       });
       return res
         .status(200)
-        .json({ message: "Cart created successfully", newCart });
+        .json(newCart, { message: "Cart created successfully" });
     }
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -114,7 +114,7 @@ const updateCart = async (req, res) => {
       await cart.save();
       return res
         .status(200)
-        .json({ message: "Cart updated successfully", cart });
+        .json(cart, { message: "Cart updated successfully" });
     } else {
       return res.status(404).json({ error: "Product not found in cart" });
     }
@@ -147,7 +147,7 @@ const deleteCart = async (req, res) => {
       await cart.save();
       return res
         .status(200)
-        .json({ message: "Cart updated successfully", cart });
+        .json(cart, { message: "Cart updated successfully" });
     } else {
       return res.status(404).json({ error: "Product not found in cart" });
     }
@@ -163,7 +163,7 @@ const getCartInfo = async (req, res) => {
     if (!cart) {
       return res.status(404).json({ error: "Cart not found" });
     }
-    res.status(200).json({ message: "Cart found successfully", cart });
+    res.status(200).json(cart, { message: "Cart found successfully" });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -208,9 +208,8 @@ const mergerCarts = async (req, res) => {
         } catch (error) {
           res.status(500).json({ error: error.message });
         }
-        return res.status(200).json({
+        return res.status(200).json(userCart, {
           message: "Carts merged successfully",
-          userCart,
         });
       } else {
         // if the user has no existing cart, just assign guest Cart to the user
@@ -218,16 +217,14 @@ const mergerCarts = async (req, res) => {
         guestCart.guestId = undefined; // remove guestId
         await guestCart.save();
 
-        return res.status(200).json({
+        return res.status(200).json(guestCart, {
           message: "Guest cart assigned to user",
-          guestCart,
         });
       }
     } else {
       if (userCart) {
-        return res.status(200).json({
+        return res.status(200).json(userCart, {
           message: "Guest cart already assigned to user",
-          userCart,
         });
       }
       return res.status(404).json({ error: "Guest cart not found" });

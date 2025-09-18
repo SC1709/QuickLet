@@ -1,72 +1,24 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { fetchAllOrders } from "../redux/slices/orderSlice";
 
 const MyOrderPage = () => {
-  const [orders, setOrders] = useState([]);
   const navigate = useNavigate();
-  const mockOrders = [
-    {
-      _id: "12345",
-      createdAt: new Date(),
-      shippingAddress: { city: "Pune", country: "INDIA" },
-      orderItems: [
-        {
-          name: "Product 1",
-          image: "https://picsum.photos/500/500?random=1",
-        },
-      ],
-      totalPrice: 100,
-      isPaid: true,
-    },
-    {
-      _id: "34567",
-      createdAt: new Date(),
-      shippingAddress: { city: "Pune", country: "INDIA" },
-      orderItems: [
-        {
-          name: "Product 2",
-          image: "https://picsum.photos/500/500?random=2",
-        },
-      ],
-      totalPrice: 100,
-      isPaid: true,
-    },
-    {
-      _id: "12457",
-      createdAt: new Date(),
-      shippingAddress: { city: "Pune", country: "INDIA" },
-      orderItems: [
-        {
-          name: "Product 3",
-          image: "https://picsum.photos/500/500?random=3",
-        },
-      ],
-      totalPrice: 100,
-      isPaid: true,
-    },
-    {
-      _id: "36985",
-      createdAt: new Date(),
-      shippingAddress: { city: "Pune", country: "INDIA" },
-      orderItems: [
-        {
-          name: "Product 4",
-          image: "https://picsum.photos/500/500?random=4",
-        },
-      ],
-      totalPrice: 100,
-      isPaid: true,
-    },
-  ];
+  const dispatch = useDispatch();
+  const { orders, loading, error } = useSelector((state) => state.order);
+
   useEffect(() => {
-    setTimeout(() => {
-      setOrders(mockOrders);
-    }, 1000);
-  }, []);
+    dispatch(fetchAllOrders());
+  }, [dispatch]);
 
   const handleRowClick = (orderId) => {
     navigate(`/order/${orderId}`);
   };
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error:{error}</p>;
+
   return (
     <div className="max-w-7xl mx-auto p-4 sm:p-6">
       <h2 className="text-xl sm:text-2xl font-bold mb-6">My Orders</h2>

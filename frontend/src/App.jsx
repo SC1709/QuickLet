@@ -21,6 +21,7 @@ import EditProductPage from "./components/Admin/EditProductPage";
 import OrderManagement from "./components/Admin/OrderManagement";
 import {Provider} from "react-redux";
 import store from './redux/store';
+import ProtectedRoute from "./components/Common/ProtectedRoute";
 
 const App = () => {
   return (
@@ -40,12 +41,19 @@ const App = () => {
           <Route path="/order/:id" element={<OrderDetailsPage />} />
           <Route path="/my-orders" element={<MyOrderPage />} />
         </Route>
-        <Route path="/admin" element={<AdminLayout />} >
-        <Route index element={<AdminHomePage />} />
-        <Route path="/admin/users" element={<UserManagement />} />
-        <Route path="/admin/products" element={<ProductManagement />} />
-        <Route path="/admin/products/:id/edit" element={<EditProductPage />} />
-        <Route path="/admin/orders" element={<OrderManagement />} />
+        <Route
+          path="/admin"
+          element={
+            <ProtectedRoute role="admin">
+              <AdminLayout />
+            </ProtectedRoute>
+          }
+        >
+          <Route index element={<AdminHomePage />} />
+          <Route path="/admin/users" element={<UserManagement />} />
+          <Route path="/admin/products" element={<ProductManagement />} />
+          <Route path="/admin/products/:id/edit" element={<EditProductPage />} />
+          <Route path="/admin/orders" element={<OrderManagement />} />
         </Route>
       </Routes>
     </BrowserRouter>

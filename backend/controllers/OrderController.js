@@ -6,7 +6,7 @@ const getAllOrders = async (req, res) => {
     const orders = await Order.find({ user: req.user._id }).sort({
       createdAt: -1,
     }); // sort by createdAt in descending order
-    res.status(201).json({ message: "Orders found successfully", orders });
+    res.status(201).json(orders, { message: "Orders found successfully" });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -24,7 +24,7 @@ const getOrderById = async (req, res) => {
     }
 
     // return the full order details
-    res.status(200).json({ message: "Order found successfully", order });
+    res.status(200).json(order, { message: "Order found successfully" });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }

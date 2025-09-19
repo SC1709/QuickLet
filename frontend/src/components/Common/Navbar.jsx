@@ -13,6 +13,7 @@ import { useSelector } from "react-redux";
 const Navbar = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [navDrawerOpen, setNavDrawerOpen] = useState(false);
+  const { user } = useSelector((state) => state.auth);
   const { cart } = useSelector((state) => state.cart);
 
   const cartItemCount =
@@ -64,12 +65,14 @@ const Navbar = () => {
         </div>
         {/* right icons */}
         <div className="flex items-center space-x-4">
-          <Link
-            to="/admin"
-            className="block bg-black text-sm text-white px-4 py-1 rounded-lg hover:bg-gray-500"
-          >
-            Admin
-          </Link>
+          {user && user.role === "admin" && (
+            <Link
+              to="/admin"
+              className="block bg-black text-sm text-white px-4 py-1 rounded-lg hover:bg-gray-500"
+            >
+              Admin
+            </Link>
+          )}
           <Link to="/profile" className="hover:text-black">
             <HiOutlineUser className="h-6 w-6 text-gray-700" />
           </Link>

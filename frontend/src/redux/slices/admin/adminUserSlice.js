@@ -55,7 +55,7 @@ export const deleteUser = createAsyncThunk("admin/deleteUser", async (id) => {
       Authorization: `Bearer ${localStorage.getItem("userToken")}`,
     },
   });
-  return response.data;
+  return id;
 });
 
 const adminUserSlice = createSlice({
@@ -123,9 +123,7 @@ const adminUserSlice = createSlice({
       })
       .addCase(deleteUser.fulfilled, (state, action) => {
         state.loading = false;
-        state.users = state.users.filter(
-          (user) => user._id !== action.payload._id
-        );
+        state.users = state.users.filter((user) => user._id !== action.payload);
         state.error = null;
       })
       .addCase(deleteUser.rejected, (state, action) => {

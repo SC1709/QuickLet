@@ -3,7 +3,7 @@ const Order = require("../../models/Order");
 const getAllOrder = async (req, res) => {
   try {
     const order = await Order.find({}).populate("user", "name email");
-    res.status(200).json({ message: "Order found successfully", order });
+    res.status(200).json(order, { message: "Order found successfully" });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -13,7 +13,7 @@ const updateOrder = async (req, res) => {
   const { id } = req.params;
   const { status } = req.body;
   try {
-    const order = await Order.findById(id);
+    const order = await Order.findById(id).populate("user", "name");
     if (!order) {
       return res.status(404).json({ message: "Order not found" });
     }
@@ -21,7 +21,7 @@ const updateOrder = async (req, res) => {
     order.isDelivered = status === "Delivered" ? true : order.isDelivered;
     order.deliveredAt = status === "Delivered" ? Date.now() : order.deliveredAt;
     await order.save();
-    res.status(200).json({ message: "Order updated successfully", order });
+    res.status(200).json(order, { message: "Order updated successfully" });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

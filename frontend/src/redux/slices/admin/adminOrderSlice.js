@@ -92,7 +92,7 @@ const adminOrderSlice = createSlice({
       })
       //   update order delivery status
       .addCase(updateOrderStatus.pending, (state) => {
-        state.loading = true;
+        state.loading = false;
         state.error = null;
       })
       .addCase(updateOrderStatus.fulfilled, (state, action) => {

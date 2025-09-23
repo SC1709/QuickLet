@@ -1,20 +1,37 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  deleteProduct,
+  fetchAdminProducts,
+} from "../../redux/slices/admin/adminProductSlice";
 
 const ProductManagement = () => {
-  const products = [
-    {
-      _id: 123123,
-      name: "Shirt",
-      price: 110,
-      sku: "123123213",
-    },
-  ];
+  const dispatch = useDispatch();
+  const naviagate = useNavigate();
+
+  const { user } = useSelector((state) => state.auth);
+  const { products, loading, error } = useSelector(
+    (state) => state.adminProducts
+  );
+
+  useEffect(() => {
+    if (!user || user.role !== "admin") {
+      naviagate("/");
+    } else {
+      dispatch(fetchAdminProducts());
+    }
+  }, [user, naviagate, dispatch]);
+
   const handleDelete = (id) => {
     if (window.confirm("Are you sure you want to delete this product?")) {
-      console.log("delete product with", id);
+      dispatch(deleteProduct(id));
     }
   };
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error}</p>;
+
   return (
     <div className="max-w-7xl mx-auto p-6">
       <h2 className="text-3xl font-bold mb-6">Product Management</h2>
@@ -38,7 +55,7 @@ const ProductManagement = () => {
                   <td className="p-4 px-5 font-medium text-gray-800 whitespace-nowrap">
                     {product.name}
                   </td>
-                  <td className="p-4 px-7">{product.price}</td>
+                  <td className="p-4 px-7">₹{product.price}</td>
                   <td className="p-4">{product.sku}</td>
                   <td className="p-4">
                     <Link

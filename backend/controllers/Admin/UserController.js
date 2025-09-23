@@ -4,7 +4,7 @@ const User = require("../../models/User");
 const getAllUsers = async (req, res) => {
   try {
     const users = await User.find({});
-    res.status(201).json({ message: "Users found successfully", users });
+    res.status(201).json(users, { message: "Users found successfully" });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -29,7 +29,9 @@ const addUser = async (req, res) => {
       role: role || "customer",
     });
     await newUser.save();
-    res.status(201).json({ message: "User created successfully", newUser });
+    res
+      .status(201)
+      .json({ message: "User created successfully", user: newUser });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

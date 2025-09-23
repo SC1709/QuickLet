@@ -1,6 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
+import { fetchProductById } from "../../redux/slices/productSlice";
 
 const EditProductPage = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { id } = useParams();
+  const { selectedProduct, loading, error } = useSelector(
+    (state) => state.products
+  );
+
+  const [uploadImage, setUploadImage] = useState(false);
   const [productsData, setProductsData] = useState({
     name: "",
     description: "",
@@ -14,15 +25,21 @@ const EditProductPage = () => {
     collections: "",
     material: "",
     gender: "",
-    images: [
-      {
-        url: "https://picsum.photos/500?random=1",
-      },
-      {
-        url: "https://picsum.photos/500?random=2",
-      },
-    ],
+    images: [],
   });
+
+  useEffect(() => {
+    if (id) {
+      dispatch(fetchProductById(id));
+    }
+  }, [id, dispatch]);
+
+  useEffect(() => {
+    if (selectedProduct) {
+      setProductsData(selectedProduct);
+    }
+  }, [selectedProduct]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setProductsData((prevData) => ({

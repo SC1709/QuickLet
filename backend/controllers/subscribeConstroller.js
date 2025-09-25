@@ -17,9 +17,8 @@ const createSubscribe = async (req, res) => {
     // create new subscribe
     let newSubscribe = new Subscribe({ email });
     newSubscribe = await newSubscribe.save();
-    res.status(201).json({
+    res.status(201).json(newSubscribe, {
       message: "Successfully subscribed to newsletter!",
-      newSubscribe,
     });
   } catch (error) {
     res.status(500).json({ error: error.message });

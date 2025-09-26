@@ -176,7 +176,33 @@ const EditProductPage = () => {
           />
         </div>
         {/* category */}
+        <div className="mb-6">
+          <label className="block text-gray-800 font-semibold mb-2">
+            Category
+          </label>
+          <input
+            type="text"
+            name="category"
+            value={productsData.category}
+            onChange={handleChange}
+            className="w-full p-2 border border-gray-300 rounded-md focus:appearance-none 
+            focus:outline-none focus:border-blue-500"
+          />
+        </div>
         {/* brand */}
+        <div className="mb-6">
+          <label className="block text-gray-800 font-semibold mb-2">
+            Brand
+          </label>
+          <input
+            type="text"
+            name="brand"
+            value={productsData.brand}
+            onChange={handleChange}
+            className="w-full p-2 border border-gray-300 rounded-md focus:appearance-none 
+            focus:outline-none focus:border-blue-500"
+          />
+        </div>
         {/* sizes */}
         <div className="mb-6">
           <label className="block text-gray-800 font-semibold mb-2">
@@ -216,8 +242,52 @@ const EditProductPage = () => {
           />
         </div>
         {/* collections */}
+        <div className="mb-6">
+          <label className="block text-gray-800 font-semibold mb-2">
+            Collection
+          </label>
+          <input
+            type="text"
+            name="collections"
+            value={productsData.collections}
+            onChange={handleChange}
+            className="w-full p-2 border border-gray-300 rounded-md focus:appearance-none 
+            focus:outline-none focus:border-blue-500"
+          />
+        </div>
         {/* material */}
+        <div className="mb-6">
+          <label className="block text-gray-800 font-semibold mb-2">
+            Material
+          </label>
+          <input
+            type="text"
+            name="material"
+            value={productsData.material}
+            onChange={handleChange}
+            className="w-full p-2 border border-gray-300 rounded-md focus:appearance-none 
+            focus:outline-none focus:border-blue-500"
+          />
+        </div>
+
         {/* gender */}
+        <div className="mb-6">
+          <label className="block text-gray-800 font-semibold mb-2">
+            Gender
+          </label>
+          <select
+            name="gender"
+            value={productsData.gender}
+            onChange={handleChange}
+            className="max-w-full  p-2 border border-gray-100 rounded-md bg-white text-gray-800 
+               focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 
+               transition ease-in-out duration-150 cursor-pointer"
+          >
+            {/* <option value="">Select Gender</option> */}
+            <option value="Men">Men</option>
+            <option value="Women">Women</option>
+          </select>
+        </div>
         {/* images */}
         <div className="mb-6">
           <label className="block text-gray-800 font-semibold mb-2">

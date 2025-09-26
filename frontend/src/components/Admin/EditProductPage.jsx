@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { fetchProductById } from "../../redux/slices/productSlice";
+import {
+  fetchProductById,
+  updateProduct,
+} from "../../redux/slices/productSlice";
+import axios from "axios";
+const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
 const EditProductPage = () => {
   const dispatch = useDispatch();
@@ -11,7 +16,7 @@ const EditProductPage = () => {
     (state) => state.products
   );
 
-  const [uploadImage, setUploadImage] = useState(false);
+  const [uploadImage, setUploadImage] = useState(false); //image upload state
   const [productsData, setProductsData] = useState({
     name: "",
     description: "",
@@ -49,13 +54,53 @@ const EditProductPage = () => {
   };
   const handleImageUpload = async (e) => {
     const file = e.target.files[0];
-    console.log(file);
+    const formData = new FormData();
+    formData.append("image", file);
+    try {
+      setUploadImage(true);
+      const { data } = await axios.post(`${backendUrl}/api/upload`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      setProductsData((prevData) => {
+        let updatedImages = [
+          ...prevData.images,
+          { url: data.imageUrl, altText: "" },
+        ];
+
+        // Keep only last 2 images
+        if (updatedImages.length > 2) {
+          updatedImages = updatedImages.slice(-2);
+        }
+
+        return {
+          ...prevData,
+          images: updatedImages,
+        };
+      });
+      setUploadImage(false);
+    } catch (error) {
+      console.error("Error uploading image:", error);
+      setUploadImage(false);
+    }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(productsData);
+
+    dispatch(updateProduct({ id, productData: productsData }));
+    navigate("/admin/products");
   };
+
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+  if (error) {
+    return <p>Error: {error}</p>;
+  }
   return (
     <div className="max-w-5xl mx-auto p-6 shadow-md rounded-lg">
       <h2 className="text-3xl font-bold mb-6">Edit Products</h2>
@@ -185,6 +230,7 @@ const EditProductPage = () => {
           file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 
           file:cursor-pointer focus:outline-none"
           />
+          {uploadImage && <p>Uploading...</p>}
           <div className="flex gap-4 mt-4">
             {productsData.images.map((image, index) => (
               <div key={index}>

@@ -11,7 +11,7 @@ const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
-  const { user, guestId } = useSelector((state) => state.auth);
+  const { user, guestId, loading } = useSelector((state) => state.auth);
   const { cart } = useSelector((state) => state.cart);
 
   const redirect = new URLSearchParams(location.search).get("redirect") || "/";
@@ -77,7 +77,7 @@ const Login = () => {
             className="w-full bg-black text-white p-2 rounded-lg font-semibold
                hover:bg-gray-700 transition cursor-pointer"
           >
-            Sign In
+            {loading ? "Loading..." : "Sign In"}
           </button>
           <p className="text-center mt-6 text-sm">
             Don't have an account?{" "}

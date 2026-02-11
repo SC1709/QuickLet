@@ -20,14 +20,17 @@ Backend: [https://quicklet-backend.onrender.com](https://quicklet-backend.onrend
 - 🔄 React Router DOM
 - 🎯 React Icons
 - 📦 Axios
+- 🔔 Sonner (toast notifications)
 
 ### 🛠️ Backend
 
 - 🟢 Node.js
 - 🚀 Express.js
 - 🗃️ MongoDB (via Mongoose)
-- 🔐 JWT Authentication (future)
-- 🧂 bcrypt for password hashing (future)
+- ☁️ Cloudinary (image hosting)
+- 📤 Multer + Streamifier (file upload & streaming to Cloudinary)
+- 🔐 JWT Authentication 
+- 🧂 bcrypt for password hashing 
 - 📦 dotenv for environment configuration
 - 🧪 CORS, Morgan for logging and API support
 
@@ -37,7 +40,7 @@ Backend: [https://quicklet-backend.onrender.com](https://quicklet-backend.onrend
 
 ```
 Quicklet/
-├── client/                 # Frontend (React + Vite)
+├── frontend/               # Frontend (React + Vite)
 │   ├── public/
 │   ├── src/
 |   |   ├── assets/         # Images, icons, etc.
@@ -48,17 +51,15 @@ Quicklet/
 │   ├── vite.config.js
 │   └── package.json
 │
-├── server/                 # Backend (Node + Express)
+├── backend/                # Backend (Node + Express)
 │   ├── config/             # DB connection, environment setup
 │   ├── controllers/        # Business logic
-│   ├── models/             # Mongoose schemas (Product, User, Order - future)
-│   ├── routes/             # Express routes (products, users - planned)
-│   ├── middleware/         # Error handling, auth (planned)
-│   ├── utils/              # Helper functions (e.g., token generation)
+│   ├── models/             # Mongoose schemas (Product, User, Order, etc.)
+│   ├── routes/             # Express routes (products, users, etc.)
+│   ├── middleware/         # Error handling, auth
 │   ├── server.js           # Entry point
 │   └── package.json
 │
-├── .gitignore
 └── README.md
 
 ````
@@ -79,7 +80,7 @@ Quicklet/
 #### 1 Clone the repo
 
 ```bash
-git clone https://github.com/SC1709/E-commerce.git
+https://github.com/SC1709/QuickLet.git
 cd quicklet
 ````
 
@@ -88,6 +89,7 @@ cd quicklet
 ```bash
 cd frontend
 npm install
+# Create .env file (see below) and set the following:
 npm run dev
 ````
 
@@ -97,19 +99,31 @@ npm run dev
 cd ../backend
 npm install
 # Create .env file (see below) and set the following:
-npm run dev
+npm start
 ```
 
 ---
 
 ## 🔐 Environment Variables
 
-Create a `.env` file in `server/` directory:
+Create a `.env` file in `frontend/` directory:
+
+```
+VITE_PAYPAL_CLIENT_ID=your_paypal_client_id
+VITE_BACKEND_URL=http://localhost:5000
+paypalID=your_paypal_client_id
+paypalpass=your_paypal_secret
+```
+
+Create a `.env` file in `backend/` directory:
 
 ```
 PORT=5000
 MONGO_URI=your_mongodb_connection_url
 JWT_SECRET=your_jwt_secret
+CLOUDINARY_CLOUD_NAME=your_cloud_name
+CLOUDINARY_API_KEY=your_api_key
+CLOUDINARY_API_SECRET=your_api_secret
 ```
 
 ---
@@ -121,21 +135,22 @@ JWT_SECRET=your_jwt_secret
 * 🛒 Add to Cart functionality
 * 🎨 Fully responsive UI
 * 🧭 Client-side routing with React Router
-* 📡 API Integration with Express backend
-* 📦 MongoDB schema design for products
-* 👤 Future scope: Auth, Payments, Admin dashboard
+* 📡 API Integration with Express backend   
+* 📦 MongoDB schema design for products,orders,etc.
+* 💳 Payment Integration (PayPal)
+* 📦Product filters & search
+* 🧾 User Authentication (JWT, bcrypt)
 
 ---
 
 ## 🔮 Future Enhancements
 
-* 🧾 User Authentication (JWT, bcrypt)
 * 📦 Product CRUD with Admin role
-* 💳 Payment Gateway (Razorpay/Stripe)
-* 🛍️ Order management system
-* 📊 Sales analytics dashboard
-* 📦Product filters & search
-* 📧 Email Notifications (Nodemailer)
+* 💳 Payment Gateway Razorpay/Stripe (alternative to PayPal)
+* 🛍️ Order management system (track orders, cancel, reorder)
+* 📊 Sales analytics dashboard (for Admins)
+* 📧 Email Notifications (order confirmation, account updates)
+* 🔔 Push Notifications (real-time order updates, discounts)
 
 ---
 
@@ -173,7 +188,7 @@ We welcome contributions from developers of all experience levels! Help us impro
 1. **Fork** the repository
 2. **Clone** your fork:
    ```bash
-   git clone https://github.com/your-username/E-commerce.git
+   git clone https://github.com/your-username/QuickLet.git
    make specific changes 
 3. **Create** a new branch:
     ```bash
@@ -206,4 +221,3 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 > *"Quicklet – Your one-stop destination for effortless online shopping."*
 
-```
